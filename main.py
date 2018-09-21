@@ -13,7 +13,7 @@ p6 = b.select('.temperature .p6')
 pogoda4 = p6[0].getText()
 
 print('Погода в Р-н-Д сегодня')
-print('Morning: ' + pogoda1 + ' ' + pogoda2)
+print('Утро: ' + pogoda1 + ' ' + pogoda2)
 print('Day: ' + pogoda3 + ' ' + pogoda4)
 p=b.select('.rSide .description')
 pogoda=p[0].getText()
