@@ -1,23 +1,23 @@
 import requests, bs4
 
 #get page
-s = requests.get('https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera/komplektuyuschie/videokarty?s_trg=7')
+soup = requests.get('https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera/komplektuyuschie/videokarty?s_trg=7')
+
 #write page to vairiable
-b = bs4.BeautifulSoup(s.text, "html.parser")
+soup = bs4.BeautifulSoup(soup.text, "html.parser")
 
-#selec all classes .price
-p1 = b.select('.price')
+#movie_link = item.find('div', {'class': 'nameRus'}).find('a').get('href')
 
-#select all classes .item-descript-title-link
-d1 = b.select('.item-description-title-link')
+#item_links = soup.find('div', {'class': 'item_table-header'}).find('a').get('href')
 
-#cycle to print all results
+item_links = soup.select('.item-description-title-link')
+
 i = 0
-for itm in p1:
-    price = p1[i].getText()
-    descript = d1[i].getText()
-    print (descript + price)
+for itm in item_links:
+    print(item_links[i].get('href'))
     i+=1
+
+#print("https://www.avito.ru"+item_links)
 
 
 #end of script
