@@ -13,10 +13,14 @@ soup = bs4.BeautifulSoup(soup.text, "html.parser")
 item_links = soup.select('.item-description-title-link')
 
 i = 0
+flinks = open("links.txt", "a")
 for itm in item_links:
-    print(item_links[i].get('href'))
+    #print(item_links[i].get('href'))
+    flinks.write("https://www.avito.ru"+item_links[i].get('href')+"\n")
     i+=1
 
+flinks.close
+#print(len(item_links))
 #print("https://www.avito.ru"+item_links)
 
 
