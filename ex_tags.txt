@@ -10,4 +10,16 @@
    <a class="pagination-page" href="/rostov-na-donu/tovary_dlya_kompyutera/komplektuyuschie/videokarty?p=10">10</a>
    <a class="pagination-page" href="/rostov-na-donu/tovary_dlya_kompyutera/komplektuyuschie/videokarty?p=20">Последняя</a>
 
-   
+
+
+   <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="price-value price-value_side-card" id="price-value">
+   	<span class="price-value-string js-price-value-string">
+   		<span class="js-item-price" content="300" itemprop="price">300
+   		</span>&nbsp;
+   		<span itemprop="priceCurrency" content="RUB" class="price-value-prices-list-item-currency_sign">
+   			<span class="font_arial-rub">₽
+   			</span>
+   		</span>
+   	</span>
+   </div>
+    
