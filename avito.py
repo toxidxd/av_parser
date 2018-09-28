@@ -3,8 +3,13 @@ import requests, bs4
 def page_counter (link):
     soup = requests.get(link)
     soup = bs4.BeautifulSoup(soup.text, "html.parser")
+    print(soup)
     pages_links = soup.select('.pagination-page')
-    pages_last = pages_links[len(pages_links)-1].get('href').split('?p=')
+    try:
+        pages_last = pages_links[len(pages_links)-1].get('href').split('?p=')
+    except Exception:
+        print("Page not found!")
+        quit()
     pages_last = int(pages_last[1])
     return pages_last
 
@@ -35,14 +40,25 @@ def items_parser (all_links):
         soup = bs4.BeautifulSoup(soup.text, "html.parser")
 
         item = soup.select('.title-info-title-text')
-        item_name = item[0].getText()
+        try:
+            item_name = item[0].getText()
+        except Exception:
+            print("No title!")
+            item_price = "No title!"
 
         price = soup.select('.price-value-string .js-item-price')
-        item_price = price[0].get('content')
+        try:
+            item_price = price[0].get('content')
+        except Exception:
+            print("No price!")
+            item_price = "No price!"
 
         descript = soup.select('.item-description-text')
-        item_descript= descript[0].getText()
-
+        try:
+            item_descript= descript[0].getText()
+        except Exception
+            print("No description")
+            item_descript = ("No description")
 
         #print(item_name)
         #print(item_price)
@@ -58,10 +74,10 @@ def items_parser (all_links):
     return all_items
 
 
-print ("Hello, pel_MEN!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
+print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
 
 #link = input("input_link: ")
-link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
+link = "https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera"
 print ("\nCounting pages")
 pcount = page_counter(link)
 print ("Count pages: ", pcount)
@@ -70,7 +86,7 @@ print ("\nParsing links")
 all_links = links_parser(link, pcount)
 print("Overal links parsed: ", len(all_links))
 
-print("\nPasring items\n")
+print("\nParsing items\n")
 all_items = items_parser(all_links)
 print("Overal items parser: ", len(all_items))
 
