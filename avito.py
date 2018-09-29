@@ -1,9 +1,9 @@
-import requests, bs4
+import requests, bs4, random, time
 
 def page_counter (link):
     soup = requests.get(link)
     soup = bs4.BeautifulSoup(soup.text, "html.parser")
-    print(soup)
+    #print(soup)
     pages_links = soup.select('.pagination-page')
     try:
         pages_last = pages_links[len(pages_links)-1].get('href').split('?p=')
@@ -36,6 +36,9 @@ def items_parser (all_links):
     for lnk in all_links:
         cur_item = []
         print("\nCur link: ", c_lnk, "\n", all_links[c_lnk])
+        sl = random.randint(3,10)
+        print("Sleep ", sl, " sec")
+        time.sleep(sl)
         soup = requests.get(all_links[c_lnk])
         soup = bs4.BeautifulSoup(soup.text, "html.parser")
 
@@ -56,7 +59,7 @@ def items_parser (all_links):
         descript = soup.select('.item-description-text')
         try:
             item_descript= descript[0].getText()
-        except Exception
+        except Exception:
             print("No description")
             item_descript = ("No description")
 
@@ -77,7 +80,7 @@ def items_parser (all_links):
 print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
 
 #link = input("input_link: ")
-link = "https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera"
+link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
 print ("\nCounting pages")
 pcount = page_counter(link)
 print ("Count pages: ", pcount)
