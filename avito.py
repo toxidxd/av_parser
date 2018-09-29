@@ -1,4 +1,4 @@
-import requests, bs4, random, time
+import requests, bs4, random, time, csv
 
 def page_counter (link):
     soup = requests.get(link)
@@ -21,10 +21,10 @@ def links_parser (link, pcount):
         soup = requests.get(link+"?p="+str(page))
         soup = bs4.BeautifulSoup(soup.text, "html.parser")
         item_links_temp = soup.select('.item-description-title-link')
-        i = 0
+
         for itm in item_links_temp:
-            all_links.append("https://www.avito.ru"+item_links_temp[i].get('href'))
-            i += 1
+            all_links.append("https://www.avito.ru"+itm.get('href'))
+
         print ("Links parsed", len(all_links))
         page += 1
     return all_links
@@ -34,12 +34,10 @@ def items_parser (all_links):
 
     c_lnk = 0
     for lnk in all_links:
-        cur_item = []
-        print("\nCur link: ", c_lnk, "\n", all_links[c_lnk])
-        sl = random.randint(3,10)
-        print("Sleep ", sl, " sec")
-        time.sleep(sl)
-        soup = requests.get(all_links[c_lnk])
+        #cur_item = []
+        print("\nCur link: ", c_lnk, "\n", lnk)
+
+        soup = requests.get(lnk)
         soup = bs4.BeautifulSoup(soup.text, "html.parser")
 
         item = soup.select('.title-info-title-text')
@@ -66,12 +64,16 @@ def items_parser (all_links):
         #print(item_name)
         #print(item_price)
         #print(item_descript)
-        cur_item = [all_links[c_lnk], item_name, item_price, item_descript]
+        cur_item = lnk+"\n"+item_name+"\n"+item_price+"\n"+item_descript+"\n"
+        print (item_name)
         #print("\n\n\ncur!!!!!!!!!", cur_item)
         all_items.append(cur_item)
         #print("\n\n\nall!!!!!!!!", all_items)
         c_lnk += 1
 
+        sl = random.randint(3,7)
+        print("Sleep ", sl, " sec")
+        time.sleep(sl)
 
 
     return all_items
@@ -94,7 +96,18 @@ all_items = items_parser(all_links)
 print("Overal items parser: ", len(all_items))
 
 
+f = open("parsed.txt", "a")
+for itm in all_items:
+    f.write(itm+"\n")
+f.close()
 
+
+#i = 0
+#flinks = open("links.txt", "a")
+#for itm in item_links:
+    #print(item_links[i].get('href'))
+    #flinks.write("https://www.avito.ru"+item_links[i].get('href')+"\n")
+    #i+=1
 
 
 #zz = 0
@@ -125,12 +138,7 @@ print("Overal items parser: ", len(all_items))
 
 #item_links = soup.select('.item-description-title-link')
 
-#i = 0
-#flinks = open("links.txt", "a")
-#for itm in item_links:
-    #print(item_links[i].get('href'))
-    #flinks.write("https://www.avito.ru"+item_links[i].get('href')+"\n")
-    #i+=1
+
 
 #flinks.close
 
