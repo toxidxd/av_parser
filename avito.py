@@ -1,3 +1,5 @@
+
+
 import requests, bs4, random, time, csv
 
 def page_counter (link):
@@ -35,7 +37,7 @@ def items_parser (all_links):
     c_lnk = 0
     for lnk in all_links:
         #cur_item = []
-        print("\nCur link: ", c_lnk, "\n", lnk)
+        print("\nCur link:", c_lnk, "\n", lnk)
 
         try:
             soup = requests.get(lnk)
@@ -90,7 +92,7 @@ def items_parser (all_links):
 print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
 
 #link = input("input_link: ")
-link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
+link = "https://www.avito.ru/zernograd/bytovaya_elektronika"
 print ("\nCounting pages")
 pcount = page_counter(link)
 print ("Count pages: ", pcount)
@@ -102,12 +104,20 @@ print("Overal links parsed: ", len(all_links))
 print("\nParsing items\n")
 all_items = items_parser(all_links)
 print("Overal items parser: ", len(all_items))
-print(all_items)
 
-f = open("parsed.txt", "a")
-for itm in all_items:
-    f.write(itm+"\n")
-f.close()
+
+with open("zalupa_test.csv", "w", newline='') as csv_file:
+    writer = csv.writer(csv_file, delimiter=',')
+    for line in all_items:
+        writer.writerow(line)
+print("File writed!")
+
+#f = open("parsed.csv", "a")
+#for itm in all_items:
+    #f.write(itm+"\n")
+#print("file parsed.csv wtited (_Y_)")
+#f.close()
+
 
 
 #i = 0
