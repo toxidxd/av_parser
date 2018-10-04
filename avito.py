@@ -1,11 +1,9 @@
-
-
 import requests, bs4, random, time, csv
 
 def page_counter (link):
     soup = requests.get(link)
     soup = bs4.BeautifulSoup(soup.text, "html.parser")
-    print(soup)
+    #print(soup)
     pages_links = soup.select('.pagination-page')
     try:
         pages_last = pages_links[len(pages_links)-1].get('href').split('?p=')
