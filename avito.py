@@ -3,7 +3,7 @@ import requests, bs4, random, time, csv
 def page_counter (link):
     soup = requests.get(link)
     soup = bs4.BeautifulSoup(soup.text, "html.parser")
-    #print(soup)
+    print(soup)
     pages_links = soup.select('.pagination-page')
     try:
         pages_last = pages_links[len(pages_links)-1].get('href').split('?p=')
@@ -37,41 +37,49 @@ def items_parser (all_links):
         #cur_item = []
         print("\nCur link: ", c_lnk, "\n", lnk)
 
-        soup = requests.get(lnk)
-        soup = bs4.BeautifulSoup(soup.text, "html.parser")
-
-        item = soup.select('.title-info-title-text')
         try:
-            item_name = item[0].getText()
-        except Exception:
-            print("No title!")
-            item_price = "No title!"
+            soup = requests.get(lnk)
+            soup = bs4.BeautifulSoup(soup.text, "html.parser")
+            item = soup.select('.title-info-title-text')
+            try:
+                item_name = item[0].getText()
+            except Exception:
+                print("No title!")
+                item_price = "No title!"
 
-        price = soup.select('.price-value-string .js-item-price')
-        try:
-            item_price = price[0].get('content')
-        except Exception:
-            print("No price!")
-            item_price = "No price!"
+            price = soup.select('.price-value-string .js-item-price')
+            try:
+                item_price = price[0].get('content')
+            except Exception:
+                print("No price!")
+                item_price = "No price!"
 
-        descript = soup.select('.item-description-text')
-        try:
-            item_descript= descript[0].getText()
+            descript = soup.select('.item-description-text')
+            try:
+                item_descript= descript[0].getText()
+            except Exception:
+                print("No description")
+                item_descript = ("No description")
+            cur_item = [lnk, item_name, item_price, item_descript]
         except Exception:
-            print("No description")
-            item_descript = ("No description")
+            lnk = "Error! Link not downloaded!!"
+            print(lnk)
+            cur_item = [lnk]
+
 
         #print(item_name)
         #print(item_price)
         #print(item_descript)
-        cur_item = lnk+"\n"+item_name+"\n"+item_price+"\n"+item_descript+"\n"
-        print (item_name)
+
+
+
+        #print (item_name)
         #print("\n\n\ncur!!!!!!!!!", cur_item)
         all_items.append(cur_item)
         #print("\n\n\nall!!!!!!!!", all_items)
         c_lnk += 1
 
-        sl = random.randint(3,7)
+        sl = random.randint(3,6)
         print("Sleep ", sl, " sec")
         time.sleep(sl)
 
@@ -94,7 +102,7 @@ print("Overal links parsed: ", len(all_links))
 print("\nParsing items\n")
 all_items = items_parser(all_links)
 print("Overal items parser: ", len(all_items))
-
+print(all_items)
 
 f = open("parsed.txt", "a")
 for itm in all_items:
