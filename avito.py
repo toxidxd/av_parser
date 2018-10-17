@@ -7,10 +7,12 @@ def page_counter (link):
     pages_links = soup.select('.pagination-page')
     try:
         pages_last = pages_links[len(pages_links)-1].get('href').split('?p=')
+        pages_last = int(pages_last[1])
     except Exception:
-        print("Page not found!")
-        quit()
-    pages_last = int(pages_last[1])
+        print("its 1 page?")
+        pages_last = 1
+        #quit()
+
     return pages_last
 
 def links_parser (link, pcount):
@@ -29,6 +31,35 @@ def links_parser (link, pcount):
         page += 1
     return all_links
 
+def title_parser (soup):
+    item = soup.select('.title-info-title-text')
+    try:
+        item_name = item[0].getText()
+    except Exception:
+        print("No title!")
+        item_name = "No title!"
+    return item_name
+
+def price_parser (soup):
+    price = soup.select('.price-value-string .js-item-price')
+    try:
+        item_price = price[0].get('content')
+    except Exception:
+        print("No price!")
+        item_price = "No price!"
+    return item_price
+
+def descript_parser (soup):
+    descript = soup.select('.item-description-text')
+    try:
+        item_descript= descript[0].getText()
+    except Exception:
+        print("No description!")
+        item_descript = ("No description!")
+    return item_descript
+
+
+
 def items_parser (all_links):
     all_items = []
 
@@ -40,43 +71,20 @@ def items_parser (all_links):
         try:
             soup = requests.get(lnk)
             soup = bs4.BeautifulSoup(soup.text, "html.parser")
-            item = soup.select('.title-info-title-text')
-            try:
-                item_name = item[0].getText()
-            except Exception:
-                print("No title!")
-                item_price = "No title!"
 
-            price = soup.select('.price-value-string .js-item-price')
-            try:
-                item_price = price[0].get('content')
-            except Exception:
-                print("No price!")
-                item_price = "No price!"
+            item_name = title_parser(soup)
+            item_price = price_parser(soup)
+            item_descript = descript_parser(soup)
 
-            descript = soup.select('.item-description-text')
-            try:
-                item_descript= descript[0].getText()
-            except Exception:
-                print("No description")
-                item_descript = ("No description")
             cur_item = [lnk, item_name, item_price, item_descript]
+
         except Exception:
-            lnk = "Error! Link not downloaded!!"
-            print(lnk)
-            cur_item = [lnk]
+            page_error = "Error! Link not downloaded!!"
+            print(page_error)
+            cur_item = [page_error]
 
-
-        #print(item_name)
-        #print(item_price)
-        #print(item_descript)
-
-
-
-        #print (item_name)
-        #print("\n\n\ncur!!!!!!!!!", cur_item)
         all_items.append(cur_item)
-        #print("\n\n\nall!!!!!!!!", all_items)
+
         c_lnk += 1
 
         sl = random.randint(3,6)
@@ -90,8 +98,10 @@ def items_parser (all_links):
 print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
 
 #link = input("input_link: ")
-link = "https://www.avito.ru/zernograd/bytovaya_elektronika"
+#link = "https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera/tv-tyunery"
+link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera/komplektuyuschie/zhestkie_diski"
 print ("\nCounting pages")
+
 pcount = page_counter(link)
 print ("Count pages: ", pcount)
 
@@ -106,6 +116,7 @@ print("Overal items parser: ", len(all_items))
 
 with open("zalupa_test.csv", "w", newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=',')
+    writer.writerow(["lin,k", "ti,tle", "pric,e", "descr,iption"])
     for line in all_items:
         writer.writerow(line)
 print("File writed!")
