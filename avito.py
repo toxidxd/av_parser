@@ -52,7 +52,9 @@ def price_parser (soup):
 def descript_parser (soup):
     descript = soup.select('.item-description-text')
     try:
-        item_descript= descript[0].getText()
+        item_descript = descript[0].getText()
+        des_temp = item_descript.split('\n')
+        item_descript = des_temp[1]
     except Exception:
         print("No description!")
         item_descript = ("No description!")
@@ -63,7 +65,7 @@ def descript_parser (soup):
 def items_parser (all_links):
     all_items = []
 
-    c_lnk = 0
+    c_lnk = 1
     for lnk in all_links:
         #cur_item = []
         print("\nCur link:", c_lnk, "\n", lnk)
@@ -91,7 +93,6 @@ def items_parser (all_links):
         print("Sleep ", sl, " sec")
         time.sleep(sl)
 
-
     return all_items
 
 
@@ -113,10 +114,10 @@ print("\nParsing items\n")
 all_items = items_parser(all_links)
 print("Overal items parser: ", len(all_items))
 
-
+print (all_items)
 with open("zalupa_test.csv", "w", newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=',')
-    writer.writerow(["lin,k", "ti,tle", "pric,e", "descr,iption"])
+    writer.writerow(["link", "title", "price", "description"])
     for line in all_items:
         writer.writerow(line)
 print("File writed!")
