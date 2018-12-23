@@ -28,6 +28,9 @@ def links_parser (link, pcount):
             all_links.append("https://www.avito.ru"+itm.get('href'))
 
         print ("Links parsed", len(all_links))
+        sl = random.randint(1,2)
+        print("Sleep ", sl, " sec")
+        time.sleep(sl)
         page += 1
     return all_links
 
@@ -100,9 +103,10 @@ print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru
 
 #link = input("input_link: ")
 #link = "https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera/tv-tyunery"
-link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera/komplektuyuschie/zhestkie_diski"
-print ("\nCounting pages")
+#link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera/komplektuyuschie/zhestkie_diski"
+link = "https://www.avito.ru/zernograd/lichnye_veschi"
 
+print ("\nCounting pages")
 pcount = page_counter(link)
 print ("Count pages: ", pcount)
 
