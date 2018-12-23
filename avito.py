@@ -1,5 +1,5 @@
 import requests, bs4, random, time, csv
-
+#####
 def page_counter (link):
     soup = requests.get(link)
     soup = bs4.BeautifulSoup(soup.text, "html.parser")
