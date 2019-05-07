@@ -1,9 +1,9 @@
 import requests, bs4, random, time, csv
-
-######
+from fake_useragent import UserAgent
+#######
 
 def page_counter (link):
-    soup = requests.get(link)
+    soup = requests.get(link, headers={'User-Agent': UserAgent(verify_ssl=False).chrome})
     soup = bs4.BeautifulSoup(soup.text, "html.parser")
     #print(soup)
     pages_links = soup.select('.pagination-page')
@@ -22,7 +22,7 @@ def links_parser (link, pcount):
     page = 1
     while page <= pcount:
         print ("Current page: ", page)
-        soup = requests.get(link+"?p="+str(page))
+        soup = requests.get(link+"?p="+str(page), headers={'User-Agent': UserAgent(verify_ssl=False).chrome})
         soup = bs4.BeautifulSoup(soup.text, "html.parser")
         item_links_temp = soup.select('.item-description-title-link')
 
@@ -76,7 +76,7 @@ def items_parser (all_links):
         print("\nCur link:", c_lnk, "\n", lnk)
 
         try:
-            soup = requests.get(lnk)
+            soup = requests.get(lnk, headers={'User-Agent': UserAgent(verify_ssl=False).chrome})
             soup = bs4.BeautifulSoup(soup.text, "html.parser")
 
             item_name = title_parser(soup)
@@ -100,6 +100,7 @@ def items_parser (all_links):
 
     return all_items
 
+#UserAgent().chrome
 
 print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
 
