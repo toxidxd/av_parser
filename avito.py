@@ -104,6 +104,7 @@ def items_parser (all_links):
 print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
 
 #link = input("input_link: ")
+
 #link = "https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera/tv-tyunery"
 #link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera/komplektuyuschie/zhestkie_diski"
 link = "https://www.avito.ru/zernograd/lichnye_veschi"
