@@ -5,7 +5,6 @@ from fake_useragent import UserAgent
 def page_counter (link):
     soup = requests.get(link, headers={'User-Agent': UserAgent(verify_ssl=False).chrome})
     soup = bs4.BeautifulSoup(soup.text, "html.parser")
-    #print(soup)
     pages_links = soup.select('.pagination-page')
     try:
         pages_last = pages_links[len(pages_links)-1].get('href').split('?p=')
@@ -94,21 +93,17 @@ def items_parser (all_links):
 
         c_lnk += 1
 
-        sl = random.randint(3,6)
+        sl = random.randint(2,4)
         print("Sleep ", sl, " sec")
         time.sleep(sl)
 
     return all_items
 
-#UserAgent().chrome
-
 print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru/zernograd/tovary_dlya_kompyutera")
 
 #link = input("input_link: ")
 
-#link = "https://www.avito.ru/rostov-na-donu/tovary_dlya_kompyutera/tv-tyunery"
-#link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera/komplektuyuschie/zhestkie_diski"
-link = "https://www.avito.ru/zernograd/lichnye_veschi"
+link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
 
 print ("\nCounting pages")
 pcount = page_counter(link)
@@ -130,57 +125,8 @@ with open("zalupa_test.csv", "w", newline='') as csv_file:
         writer.writerow(line)
 print("File writed!")
 
-#f = open("parsed.csv", "a")
-#for itm in all_items:
-    #f.write(itm+"\n")
-#print("file parsed.csv wtited (_Y_)")
-#f.close()
 
 
-
-#i = 0
-#flinks = open("links.txt", "a")
-#for itm in item_links:
-    #print(item_links[i].get('href'))
-    #flinks.write("https://www.avito.ru"+item_links[i].get('href')+"\n")
-    #i+=1
-
-
-#zz = 0
-#for itm in all_links:
-#    print(all_links[zz])
-#    zz += 1
-#print(all_links)
-
-
-#zz = 0
-#print("==================================")
-#for itm in all_links:
-    #print(all_links[zz])
-    #zz += 1
-#print(all_links)
-#print("Overal links parsed: ", len(all_links))
-
-#print(links_parser(link))
-#print(len(links_parser(link)))
-
-
-#write page to vairiable
-
-
-#movie_link = item.find('div', {'class': 'nameRus'}).find('a').get('href')
-
-#item_links = soup.find('div', {'class': 'item_table-header'}).find('a').get('href')
-
-#item_links = soup.select('.item-description-title-link')
-
-
-
-#flinks.close
-
-
-#print(len(item_links))
-#print("https://www.avito.ru"+item_links)
 
 
 #end of script
