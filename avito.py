@@ -103,8 +103,8 @@ print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru
 
 #link = input("input_link: ")
 
-link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
-
+#link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
+link = "https://www.avito.ru/zernograd/chasy_i_ukrasheniya/bizhuteriya?s_trg=11"
 print ("\nCounting pages")
 pcount = page_counter(link)
 print ("Count pages: ", pcount)
@@ -118,6 +118,7 @@ all_items = items_parser(all_links)
 print("Overal items parser: ", len(all_items))
 
 print (all_items)
+print (type(all_items))
 with open("zalupa_test.csv", "w", newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=',')
     writer.writerow(["link", "title", "price", "description"])
