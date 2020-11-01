@@ -23,7 +23,7 @@ def links_parser (link, pcount):
         print ("Current page: ", page)
         soup = requests.get(link+"?p="+str(page), headers={'User-Agent': UserAgent(verify_ssl=False).chrome})
         soup = bs4.BeautifulSoup(soup.text, "html.parser")
-        item_links_temp = soup.select('.item-description-title-link')
+        item_links_temp = soup.select('.snippet-link')
 
         for itm in item_links_temp:
             all_links.append("https://www.avito.ru"+itm.get('href'))
@@ -93,7 +93,7 @@ def items_parser (all_links):
 
         c_lnk += 1
 
-        sl = random.randint(2,4)
+        sl = random.randint(2,10)
         print("Sleep ", sl, " sec")
         time.sleep(sl)
 
@@ -104,7 +104,7 @@ print ("Hello, Johny!\nThis is avito parser.\nLink example: https://www.avito.ru
 #link = input("input_link: ")
 
 #link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
-link = "https://www.avito.ru/zernograd/chasy_i_ukrasheniya/bizhuteriya?s_trg=11"
+link = "https://www.avito.ru/zernograd/tovary_dlya_kompyutera"
 print ("\nCounting pages")
 pcount = page_counter(link)
 print ("Count pages: ", pcount)
