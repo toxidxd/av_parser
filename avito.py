@@ -9,6 +9,7 @@ from fake_useragent import UserAgent
 def page_counter(link):
 	soup = requests.get(link, headers={'User-Agent': UserAgent(verify_ssl=False).chrome})
 	soup = bs4.BeautifulSoup(soup.text, "html.parser")
+	print(soup)
 	pages_links = soup.select('.pagination-page')
 	try:
 		pages_last = pages_links[len(pages_links) - 1].get('href').split('?p=')
